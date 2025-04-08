@@ -2,207 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, ScrollView, SafeAreaView, StatusBar, Alert } from 'react-native';
 import axios from 'axios';
 
-// Import product data from parent_products.json
-const productData = [
-  {
-    "_id": {
-      "$oid": "62e13fd7164339d544819593"
-    },
-    "vendor": {
-      "name": "Sobe Istanbul"
-    },
-    "series": {
-      "name": "2S-2M-2L",
-      "item_quantity": 6
-    },
-    "description_details": {
-      "en": {
-        "fabric": "",
-        "model_measurements": "",
-        "sample_size": "",
-        "product_measurements": ""
-      }
-    },
-    "main_image": "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016580-1",
-    "price": 3,
-    "names": {
-      "en": "16580 - Blouse - Beige"
-    },
-    "images": [
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016580-1",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016580-2",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016580-3",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016580-4",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016580-5",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016580-6"
-    ],
-    "product_code": "16580"
-  },
-  {
-    "_id": {
-      "$oid": "62e13e8c164339d544819572"
-    },
-    "vendor": {
-      "name": "Sobe Istanbul"
-    },
-    "series": {
-      "name": "2S-2M-2L",
-      "item_quantity": 6
-    },
-    "description_details": {
-      "en": {
-        "fabric": "",
-        "model_measurements": "",
-        "sample_size": "",
-        "product_measurements": ""
-      }
-    },
-    "main_image": "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016577-1",
-    "price": 3,
-    "names": {
-      "en": "16577 - Blouse - Orange"
-    },
-    "images": [
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016577-1",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016577-2",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016577-3",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016577-4",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016577-5",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Sobe/2016577-6"
-    ],
-    "product_code": "16577"
-  },
-  {
-    "_id": {
-      "$oid": "638f2e80dd02a88ae7b803e6"
-    },
-    "vendor": {
-      "name": "Tuba"
-    },
-    "series": {
-      "name": "1S-1M-1L",
-      "item_quantity": 3
-    },
-    "description_details": {
-      "en": {
-        "fabric": "80% Cotton 20% Polyester",
-        "model_measurements": "Model Measurements: Height: 1.79, Chest: 88, Waist: 62, Hip: 93",
-        "product_measurements": "Product Dimensions: Height: 67 cm",
-        "sample_size": ""
-      }
-    },
-    "main_image": "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036088-1",
-    "price": 5.49,
-    "names": {
-      "en": "36088 - Blouse - Cream"
-    },
-    "images": [
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036088-1",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036088-2",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036088-3",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036088-4",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036088-5",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036088-6"
-    ],
-    "product_code": "36088"
-  },
-  {
-    "_id": {
-      "$oid": "6390782add02a88ae7e5d12c"
-    },
-    "vendor": {
-      "name": "Tuba"
-    },
-    "series": {
-      "name": "1S-1M-1L",
-      "item_quantity": 3
-    },
-    "description_details": {
-      "en": {
-        "fabric": "",
-        "model_measurements": "",
-        "product_measurements": "",
-        "sample_size": ""
-      }
-    },
-    "main_image": "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-1",
-    "price": 5.49,
-    "names": {
-      "en": "36302 - Blouse - White"
-    },
-    "images": [
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-1",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-2",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-3",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-4",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-5",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-6",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Tuba_Butik/2036302-7"
-    ],
-    "product_code": "36302"
-  },
-  {
-    "_id": {
-      "$oid": "63a6cb1847f7cdafa8ae9f55"
-    },
-    "vendor": {
-      "name": "Black Fashion"
-    },
-    "series": {
-      "name": "3S/M-3M/L",
-      "item_quantity": 6
-    },
-    "main_image": "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Black_Fashion/2038640-1",
-    "price": 5,
-    "names": {
-      "en": "38640 - Blouse - Green"
-    },
-    "images": [
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Black_Fashion/2038640-1",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Black_Fashion/2038640-2",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Black_Fashion/2038640-3"
-    ],
-    "product_code": "38640",
-    "description_details": {
-      "en": {
-        "fabric": "",
-        "model_measurements": "",
-        "product_measurements": "",
-        "sample_size": ""
-      }
-    }
-  },
-  {
-    "_id": {
-      "$oid": "63c13b9390cc5d3b974a5aba"
-    },
-    "vendor": {
-      "name": "Setre"
-    },
-    "series": {
-      "name": "1S-1L",
-      "item_quantity": 2
-    },
-    "main_image": "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Setre/2040409-1",
-    "names": {
-      "en": "40409 - Blouse - Pistachio Green"
-    },
-    "price": 16,
-    "images": [
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Setre/2040409-1",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Setre/2040409-2",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Setre/2040409-3",
-      "https://loncapazar.s3.eu-north-1.amazonaws.com/product/Setre/2040409-4"
-    ],
-    "product_code": "40409",
-    "description_details": {
-      "en": {
-        "fabric": "%100 Rayon",
-        "model_measurements": "Height : 174 Cm / Bust: 84 Cm / Waist: 60 Cm / Hips: 89 Cm / Kg: 54"
-      }
-    }
-  }
-];
+// Replace the hardcoded productData array with an empty array
+// We'll load this from the API
+const productData = [];
 
 // Product Card Component for PLP (Product Listing Page)
 const ProductCard = ({ product, onPress }) => {
@@ -396,7 +198,23 @@ export default function App() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    setProducts(productData);
+    const fetchProducts = async () => {
+      try {
+        // Fetch products from our API server
+        const response = await axios.get('http://10.0.2.2:3000/products');
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        // Fall back to hardcoded data if API request fails
+        setProducts(productData);
+        Alert.alert(
+          'Connection Error',
+          'Could not fetch products from server. Using sample data instead.'
+        );
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   const addToCart = (product) => {
